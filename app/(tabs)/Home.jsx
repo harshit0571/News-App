@@ -10,15 +10,13 @@ const Home = () => {
           className="w-[95%] py-3 outline-none bg-white px-2 rounded-lg"
         />
         <Pressable className="py-3 bg-red-600 shadow-lg px-3 rounded-lg mt-4">
-          Search
+          <Text> Search</Text>
         </Pressable>
       </View>
 
       <View className="m-auto flex flex-col p-4 rounded-lg my-1 w-[90%]">
         <Text className="text-xl font-bold">Categories</Text>
-        <View>
-            
-        </View>
+        <View></View>
       </View>
     </SafeAreaView>
   );
