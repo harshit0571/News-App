@@ -1,16 +1,16 @@
 import { View, Text, FlatList, Dimensions, Image } from "react-native";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Link } from "expo-router";
+import { Link, useLocalSearchParams } from "expo-router";
 const { height } = Dimensions.get("window");
 
 const Feed = () => {
   const [news, setNews] = useState([]);
-  const getNews = async () => {
+  const { Category } = useLocalSearchParams();
+  console.log(Category);
+  const getNews = async (api) => {
     try {
-      const res = await axios.get(
-        "https://newsapi.org/v2/top-headlines?country=in&apiKey=227b1c6051024a72b7ed6cb55dbf6c84"
-      );
+      const res = await axios.get(`https://newsapi.org/v2/${api}`);
       setNews(res.data.articles);
       console.log(res.data.articles);
     } catch (error) {
@@ -19,38 +19,56 @@ const Feed = () => {
   };
 
   useEffect(() => {
-    getNews();
-  }, []);
+    setNews([]);
+    if (Category === undefined) {
+      console.log("dw");
+
+      getNews(
+        "top-headlines?country=in&apiKey=227b1c6051024a72b7ed6cb55dbf6c84"
+      );
+    } else {
+      console.log("d");
+      getNews(
+        `everything?q=${Category}&apiKey=227b1c6051024a72b7ed6cb55dbf6c84`
+      );
+    }
+  }, [Category]);
   return (
     <View className="flex-1">
-      <FlatList
-        data={news}
-        keyExtractor={(item) => item.url}
-        renderItem={({ item }) => (
-          <View className={"p-4 border-2 border-gray-200 flex flex-col "}>
-            <Image
-              source={{
-                uri: item.urlToImage,
-              }}
-              style={{ width: 200, height: 200 }}
-              className="m-4 bg-gray-200 rounded-lg"
-            />
-            <Text className="text-lg font-bold">{item.title}</Text>
-            <Text className="text-sm text-gray-600 my-2">
-              {item.description}
-            </Text>
-            <Text className="text-sm text-gray-600 my-2 text-left">
-              Source: {item.source.name}
-            </Text>
-            <Text className="text-sm text-gray-600 my-2 text-left">
-              Published At: {item.publishedAt}
-            </Text>
-            <Link href={item.url}>
-              <Text> View Full News</Text>
-            </Link>
-          </View>
-        )}
-      />
+      {news.length < 0 ? (
+        <Text>Loading....</Text>
+      ) : (
+        <FlatList
+          data={news}
+          keyExtractor={(item) => item.publishedAt + item.url}
+          renderItem={({ item }) =>
+            item.urlToImage && (
+              <View className={"p-4 border-2 border-gray-200 flex flex-col "}>
+                <Image
+                  source={{
+                    uri: item.urlToImage,
+                  }}
+                  style={{ width: 200, height: 200 }}
+                  className="m-4 bg-gray-200 rounded-lg"
+                />
+                <Text className="text-lg font-bold">{item.title}</Text>
+                <Text className="text-sm text-gray-600 my-2">
+                  {item.description}
+                </Text>
+                <Text className="text-sm text-gray-600 my-2 text-left">
+                  Source: {item.source.name}
+                </Text>
+                <Text className="text-sm text-gray-600 my-2 text-left">
+                  Published At: {item.publishedAt}
+                </Text>
+                <Link href={item.url}>
+                  <Text> View Full News</Text>
+                </Link>
+              </View>
+            )
+          }
+        />
+      )}
     </View>
   );
 };

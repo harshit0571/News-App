@@ -8,6 +8,7 @@ import {
   View,
 } from "react-native";
 import React from "react";
+import { router } from "expo-router";
 
 const Home = () => {
   const categories = [
@@ -15,7 +16,7 @@ const Home = () => {
     "Entertainment",
     "Health",
     "Science",
-    "Sports",
+    "Crypto",
     "Technology",
   ];
   return (
@@ -35,14 +36,22 @@ const Home = () => {
 
         <FlatList
           scrollEnabled={false}
-        //   contentContainerStyle={{flexDirection : "row",flexWrap:"wrap"}}
+          //   contentContainerStyle={{flexDirection : "row",flexWrap:"wrap"}}
           numColumns={2}
           data={categories}
-          renderItem={({ item }) => (
-            <View className="bg-blue-300 p-4 rounded-lg w-[120px] flex justify-center m-3 h-[100px]" key={item}>
-              <Text className="text-center">{item}</Text>
-            </View>
-          )}
+          renderItem={({ item }) =>
+            (
+              <Pressable
+                onPress={() => {
+                  router.push(`/Feed/${item}`);
+                }}
+                className="bg-blue-300  rounded-lg w-[120px] flex justify-center m-3 h-[100px]"
+                key={item}
+              >
+                <Text className="text-center">{item}</Text>
+              </Pressable>
+            )
+          }
         />
       </View>
     </ScrollView>
