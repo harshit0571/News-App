@@ -6,7 +6,7 @@ const _layout = () => {
   return (
     <Tabs>
       <Tabs.Screen name="Home"/>
-      <Tabs.Screen name="Feed" />
+      <Tabs.Screen name="Feed/[Category]" options={{title:"Feed"}}/>
     </Tabs>
   );
 };
