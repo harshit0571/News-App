@@ -35,12 +35,12 @@ const Feed = () => {
   }, [Category]);
   return (
     <View className="flex-1">
-      {news.length < 0 ? (
+      {news.length === 0 ? (
         <Text>Loading....</Text>
       ) : (
         <FlatList
           data={news}
-          keyExtractor={(item) => item.publishedAt + item.url}
+          keyExtractor={(item, index) => index.toString()}
           renderItem={({ item }) =>
             item.urlToImage && (
               <View className={"p-4 border-2 border-gray-200 flex flex-col "}>
