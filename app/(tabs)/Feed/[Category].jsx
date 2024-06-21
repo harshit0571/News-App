@@ -6,14 +6,16 @@ import {
   Image,
   RefreshControl,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import axios from "axios";
 import { Link, useLocalSearchParams } from "expo-router";
 const { height } = Dimensions.get("window");
 
 const Feed = () => {
   const [news, setNews] = useState([]);
-  const { Category } = useLocalSearchParams();
+  const { Category, type } = useLocalSearchParams();
+
+
   const [refreshing, setRefreshing] = useState(false);
   const handleRefresh = async () => {
     setRefreshing(true);
@@ -31,7 +33,7 @@ const Feed = () => {
     }
     setRefreshing(false);
   };
-  console.log(Category);
+  console.log(Category, type);
   const getNews = async (api) => {
     try {
       const res = await axios.get(`https://newsapi.org/v2/${api}`);

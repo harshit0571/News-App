@@ -20,7 +20,7 @@ const Home = () => {
     { name: "Technology", color: "bg-gray-500 text-white" },
   ];
   const [searchVal, setSearchVal] = useState("");
-  console.log(searchVal)
+  console.log(searchVal);
   return (
     <ScrollView className="flex-1 bg-gray-100">
       <View className="m-auto flex flex-col bg-gray-200 p-6 rounded-lg my-5 w-4/5 justify-center items-center shadow-md">
@@ -33,37 +33,39 @@ const Home = () => {
         <Pressable
           className="py-3 bg-gray-700 px-6 rounded-lg shadow-md"
           onPress={() => {
-            router.push(`/Feed/${searchVal}`); setSearchVal("")
+            router.push(`/Feed/${searchVal}`);
+            setSearchVal("");
           }}
         >
           <Text className="text-white font-semibold">Search</Text>
         </Pressable>
       </View>
 
-      <View className="m-auto flex flex-col  rounded-lg my-1 w-11/12">
+      <View className="m-auto flex flex-col  rounded-lg my-1 w-11/12 ">
         <Text className="text-2xl font-bold mb-4 text-center">Categories</Text>
-
-        <FlatList
-          scrollEnabled={false}
-          numColumns={2}
-          data={categories}
-          keyExtractor={(item) => item.name}
-          renderItem={({ item }) => (
-            <Pressable
-              onPress={() => {
-                router.push(`/Feed/${item.name}`);
-              }}
-              className={
-                "bg-blue-300 rounded-lg flex justify-center items-center m-2 w-36 h-24 shadow-md " +
-                item.color
-              }
-            >
-              <Text className="text-center text-lg font-medium">
-                {item.name}
-              </Text>
-            </Pressable>
-          )}
-        />
+        <View className="justify-center items-center">
+          <FlatList
+            scrollEnabled={false}
+            numColumns={2}
+            data={categories}
+            keyExtractor={(item) => item.name}
+            renderItem={({ item }) => (
+              <Pressable
+                onPress={() => {
+                  router.push(`/Feed/${item.name}`);
+                }}
+                className={
+                  "bg-blue-300 rounded-lg flex justify-center items-center m-2 w-36 h-24 shadow-md " +
+                  item.color
+                }
+              >
+                <Text className="text-center text-lg font-medium">
+                  {item.name}
+                </Text>
+              </Pressable>
+            )}
+          />
+        </View>
       </View>
     </ScrollView>
   );
